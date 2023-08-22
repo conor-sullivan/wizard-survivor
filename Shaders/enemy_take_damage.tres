@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://boeddgy1okiog"]
+
+[ext_resource type="Shader" path="res://Shaders/shotgun_projectile.gdshader" id="1_0s8xx"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_0s8xx")
+shader_parameter/speed = 0.25
+shader_parameter/tint = Color(0.580392, 0, 0, 1)
+shader_parameter/span = 2.0

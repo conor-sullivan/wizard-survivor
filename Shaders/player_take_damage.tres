@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxtb5py7ppixb"]
+
+[ext_resource type="Shader" path="res://Shaders/take_damage.gdshader" id="1_0sox0"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_0sox0")
+shader_parameter/hit_opacity = 1.0
+shader_parameter/color = Vector3(1, 0, 0)
