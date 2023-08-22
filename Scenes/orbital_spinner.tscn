@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://g1l2bhjvpcaq"]
+
+[ext_resource type="Script" path="res://Scripts/orbital_spinner.gd" id="1_rut7m"]
+[ext_resource type="PackedScene" uid="uid://bsjueg66erfx7" path="res://Scenes/orbital.tscn" id="2_kdw41"]
+
+[node name="OrbitalSpinner" type="Node2D"]
+script = ExtResource("1_rut7m")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(50, 0)
+
+[node name="Orbital" parent="Marker2D" instance=ExtResource("2_kdw41")]
+
+[node name="Marker2D2" type="Marker2D" parent="."]
+position = Vector2(-50, 0)
+
+[node name="Marker2D3" type="Marker2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="Marker2D4" type="Marker2D" parent="."]
+position = Vector2(0, -50)

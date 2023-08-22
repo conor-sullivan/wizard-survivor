@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bakurcopffwal"]
+
+[ext_resource type="Texture2D" uid="uid://b7v5ggt2obqnh" path="res://Sprites/drop_shadow.png" id="1_1x4wt"]
+
+[node name="DropShadow" type="Sprite2D"]
+texture = ExtResource("1_1x4wt")

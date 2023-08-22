@@ -1,0 +1,207 @@
+[gd_scene load_steps=12 format=3 uid="uid://cjxo1p4bhqg6o"]
+
+[ext_resource type="Texture2D" uid="uid://ce2qqiltwvnkx" path="res://Sprites/wizard.png" id="1_t4mm7"]
+[ext_resource type="Script" path="res://Scripts/start_screen.gd" id="1_tw8v1"]
+[ext_resource type="Texture2D" uid="uid://b7v5ggt2obqnh" path="res://Sprites/drop_shadow.png" id="2_mseo5"]
+[ext_resource type="Texture2D" uid="uid://mq3nr7rf6erh" path="res://Sprites/chest.png" id="4_sbx5h"]
+[ext_resource type="Theme" uid="uid://cxhxstov7n5l5" path="res://theme.tres" id="7_0dx7l"]
+[ext_resource type="Material" uid="uid://boeddgy1okiog" path="res://Shaders/enemy_take_damage.tres" id="7_il4fg"]
+[ext_resource type="AudioStream" uid="uid://yfitb8l33wqs" path="res://Sounds/b423b42.wav" id="8_2js10"]
+
+[sub_resource type="Animation" id="Animation_v8tlr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Title:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(246.5, 105)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Title:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_c8c8j"]
+resource_name = "default"
+length = 6.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Title:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3, 4.5, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.190984, 0.0, -0.190241, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Title:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Title:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 3, 4.5, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(246.5, 105), Vector2(286, 44), Vector2(246.5, 105), Vector2(268, 170), Vector2(246.5, 105)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_41qxh"]
+_data = {
+"RESET": SubResource("Animation_v8tlr"),
+"default": SubResource("Animation_c8c8j")
+}
+
+[sub_resource type="Environment" id="Environment_t5y4g"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_intensity = 1.9
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_brightness = 0.93
+adjustment_contrast = 2.04
+adjustment_saturation = 2.95
+
+[node name="StartScreen" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_tw8v1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Player" type="Sprite2D" parent="CanvasLayer"]
+z_index = 1
+texture_filter = 1
+position = Vector2(859.343, 547.38)
+scale = Vector2(9.75458, 9.75458)
+texture = ExtResource("1_t4mm7")
+region_enabled = true
+region_rect = Rect2(8, 9, 15, 20)
+
+[node name="Shadow" type="Sprite2D" parent="CanvasLayer/Player"]
+z_index = -1
+position = Vector2(0.682472, 4.16417)
+scale = Vector2(0.602238, 0.602238)
+texture = ExtResource("2_mseo5")
+
+[node name="Chest" type="Sprite2D" parent="CanvasLayer"]
+texture_filter = 1
+position = Vector2(1083.34, 549.38)
+scale = Vector2(0.828357, 0.828357)
+texture = ExtResource("4_sbx5h")
+
+[node name="Shadow" type="Sprite2D" parent="CanvasLayer/Chest"]
+z_index = -1
+position = Vector2(-19.7292, 24.8924)
+scale = Vector2(10.5421, 10.5421)
+texture = ExtResource("2_mseo5")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="CanvasLayer"]
+z_index = 1
+position = Vector2(1054, 513)
+amount = 50
+lifetime = 3.0
+randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 79.15
+gravity = Vector2(0, -15)
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_max = 5.0
+color = Color(1, 1, 0.235294, 1)
+
+[node name="Title" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 246.5
+offset_top = 105.0
+offset_right = 1033.5
+offset_bottom = 210.999
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("7_0dx7l")
+theme_override_font_sizes/font_size = 75
+text = "Wizard Survivor"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="CanvasLayer"]
+texture_filter = 1
+material = ExtResource("7_il4fg")
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -422.0
+offset_top = 343.0
+offset_right = -329.0
+offset_bottom = 378.0
+grow_horizontal = 2
+scale = Vector2(3.00318, 3.00318)
+theme = ExtResource("7_0dx7l")
+text = "Start"
+
+[node name="Exit" type="Button" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -422.0
+offset_top = 481.0
+offset_right = -329.0
+offset_bottom = 518.0
+grow_horizontal = 2
+scale = Vector2(3.00318, 3.00318)
+theme = ExtResource("7_0dx7l")
+text = "QUIT"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+libraries = {
+"": SubResource("AnimationLibrary_41qxh")
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_t5y4g")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_2js10")
+volume_db = 10.0
+autoplay = true
+
+[connection signal="pressed" from="CanvasLayer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/Exit" to="." method="_on_exit_pressed"]

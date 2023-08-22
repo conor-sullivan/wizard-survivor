@@ -1,0 +1,298 @@
+[gd_scene load_steps=28 format=3 uid="uid://d4ckx3mxpqg08"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ud24s"]
+[ext_resource type="Shader" path="res://Shaders/take_damage.gdshader" id="2_7mu38"]
+[ext_resource type="Texture2D" uid="uid://ce2qqiltwvnkx" path="res://Sprites/wizard.png" id="2_gp8ro"]
+[ext_resource type="PackedScene" uid="uid://d0hn8i6m4vdkd" path="res://Scenes/game_over.tscn" id="2_wtfv1"]
+[ext_resource type="Texture2D" uid="uid://dn6hfuv17f2j0" path="res://Sprites/UIpackSheet_transparent.png" id="5_jc873"]
+[ext_resource type="Theme" uid="uid://cxhxstov7n5l5" path="res://theme.tres" id="6_5gim4"]
+[ext_resource type="AudioStream" uid="uid://cdktkinxpt8dx" path="res://Sounds/levelUp.wav" id="7_5f08s"]
+[ext_resource type="AudioStream" uid="uid://cdtr6886huuia" path="res://Sounds/hitHurt.wav" id="8_8rsc2"]
+[ext_resource type="PackedScene" uid="uid://dobpor4gvju83" path="res://Scenes/staff.tscn" id="8_lss8f"]
+[ext_resource type="AudioStream" uid="uid://4uak6jjldgb4" path="res://Sounds/Plop.ogg" id="8_nnk0c"]
+[ext_resource type="PackedScene" uid="uid://g1l2bhjvpcaq" path="res://Scenes/orbital_spinner.tscn" id="9_t3iww"]
+[ext_resource type="PackedScene" uid="uid://bakurcopffwal" path="res://Scenes/drop_shadow.tscn" id="10_5phvo"]
+[ext_resource type="Script" path="res://Scripts/Camera2D.gd" id="60_3u7kl"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m1ive"]
+radius = 11.0
+height = 40.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvbu5"]
+atlas = ExtResource("2_gp8ro")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4blq"]
+atlas = ExtResource("2_gp8ro")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgg5k"]
+atlas = ExtResource("2_gp8ro")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ft7s1"]
+atlas = ExtResource("2_gp8ro")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6d4w"]
+atlas = ExtResource("2_gp8ro")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_63tjp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvbu5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4blq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgg5k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ft7s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6d4w")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_330pj"]
+texture = ExtResource("5_jc873")
+texture_margin_left = 2.0
+texture_margin_top = 1.0
+texture_margin_right = 2.0
+texture_margin_bottom = 1.0
+region_rect = Rect2(252, 252, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ydfk6"]
+texture = ExtResource("5_jc873")
+region_rect = Rect2(398, 324, 12, 16)
+modulate_color = Color(1, 0.337255, 1, 1)
+
+[sub_resource type="Theme" id="Theme_w7ean"]
+ProgressBar/styles/background = SubResource("StyleBoxTexture_330pj")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_ydfk6")
+
+[sub_resource type="Animation" id="Animation_gxrwn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6e8ks"]
+resource_local_to_scene = true
+shader = ExtResource("2_7mu38")
+shader_parameter/hit_opacity = 0.0
+shader_parameter/color = Vector3(1, 0, 0)
+
+[sub_resource type="Animation" id="Animation_4pivt"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("ShaderMaterial_6e8ks")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations:material:shader_parameter/hit_opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tftci"]
+_data = {
+"RESET": SubResource("Animation_gxrwn"),
+"hit": SubResource("Animation_4pivt")
+}
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_ud24s")
+game_over = ExtResource("2_wtfv1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CapsuleShape2D_m1ive")
+
+[node name="Animations" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_63tjp")
+animation = &"idle"
+frame_progress = 0.750308
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -320
+limit_top = -240
+limit_right = 1200
+limit_bottom = 760
+script = ExtResource("60_3u7kl")
+
+[node name="CameraShakeTimer" type="Timer" parent="Camera2D"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Staff" parent="." instance=ExtResource("8_lss8f")]
+position = Vector2(0, -10)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -16.0
+offset_top = -19.0
+offset_right = -12.0
+offset_bottom = 8.0
+rotation = -1.5708
+scale = Vector2(1.04, 1.21089)
+theme = SubResource("Theme_w7ean")
+value = 50.0
+fill_mode = 2
+show_percentage = false
+
+[node name="ProgressBarUpdateTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="Effects" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tftci")
+}
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ExperianceBar" type="Node2D" parent="HUD"]
+position = Vector2(100, 47)
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/ExperianceBar"]
+offset_left = 41.0
+offset_top = 5.0
+offset_right = 47.0
+offset_bottom = 32.0
+rotation = -1.57079
+scale = Vector2(1, 36.6)
+theme = ExtResource("6_5gim4")
+fill_mode = 2
+show_percentage = false
+
+[node name="BeginLVLLabel" type="Label" parent="HUD/ExperianceBar"]
+offset_left = -59.0
+offset_top = -14.0
+offset_right = -5.0
+offset_bottom = 22.0
+theme = ExtResource("6_5gim4")
+text = "LVL"
+
+[node name="CurrentLevel" type="Label" parent="HUD/ExperianceBar"]
+offset_left = 4.0
+offset_top = -14.0
+offset_right = 44.0
+offset_bottom = 12.0
+theme = ExtResource("6_5gim4")
+text = "1"
+
+[node name="endLVLLabel" type="Label" parent="HUD/ExperianceBar"]
+offset_left = 1050.0
+offset_top = -15.0
+offset_right = 1090.0
+offset_bottom = 11.0
+theme = ExtResource("6_5gim4")
+text = "LVL"
+
+[node name="NextLevel" type="Label" parent="HUD/ExperianceBar"]
+offset_left = 1113.0
+offset_top = -15.0
+offset_right = 1153.0
+offset_bottom = 21.0
+theme = ExtResource("6_5gim4")
+text = "1"
+
+[node name="EnemiesKilledLabel" type="Label" parent="HUD/ExperianceBar"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 414.0
+offset_top = 9.0
+offset_right = 642.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("6_5gim4")
+theme_override_font_sizes/font_size = 10
+text = "Enemies Killed"
+horizontal_alignment = 1
+
+[node name="NumberEnemiesKilledLabel2" type="Label" parent="HUD/ExperianceBar"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 479.0
+offset_top = 9.0
+offset_right = 707.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("6_5gim4")
+theme_override_font_sizes/font_size = 10
+text = "0
+"
+horizontal_alignment = 1
+
+[node name="HealthRegenTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="XpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_nnk0c")
+
+[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_5f08s")
+
+[node name="TakeDamageSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_8rsc2")
+
+[node name="OrbitalSpinner" parent="." instance=ExtResource("9_t3iww")]
+visible = false
+
+[node name="DropShadow" parent="." instance=ExtResource("10_5phvo")]
+z_index = -1
+position = Vector2(0, 18)
+
+[connection signal="timeout" from="Camera2D/CameraShakeTimer" to="Camera2D" method="_on_camera_shake_timer_timeout"]
+[connection signal="timeout" from="ProgressBarUpdateTimer" to="." method="_on_progress_bar_update_timer_timeout"]
+[connection signal="timeout" from="HealthRegenTimer" to="." method="_on_health_regen_timer_timeout"]

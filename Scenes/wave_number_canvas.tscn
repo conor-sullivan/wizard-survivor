@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlo4ahi3d0f8r"]
+
+[ext_resource type="Script" path="res://Scripts/wave_number_canvas.gd" id="1_vyvjc"]
+
+[node name="WaveNumberCanvas" type="CanvasLayer"]
+script = ExtResource("1_vyvjc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0901961, 0.0901961, 0.0901961, 0.137255)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.396078, 0.427451, 0.290196, 1)
+theme_override_font_sizes/font_size = 50
+text = "Wave"
+horizontal_alignment = 1
+vertical_alignment = 1

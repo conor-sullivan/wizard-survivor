@@ -1,0 +1,257 @@
+[gd_scene load_steps=28 format=3 uid="uid://cikpypafl14aj"]
+
+[ext_resource type="Script" path="res://Scripts/slime.gd" id="1_hqw8h"]
+[ext_resource type="Material" uid="uid://boeddgy1okiog" path="res://Shaders/enemy_take_damage.tres" id="2_67wql"]
+[ext_resource type="Texture2D" uid="uid://wlwhv6rgdv4d" path="res://Sprites/green_slime.png" id="2_hkt51"]
+[ext_resource type="Shader" path="res://Shaders/take_damage.gdshader" id="3_1wsdl"]
+[ext_resource type="AudioStream" uid="uid://gs5kq4yg21up" path="res://Sounds/slime_explosion.wav" id="5_vsqrs"]
+[ext_resource type="AudioStream" uid="uid://hn2txwsfbo2a" path="res://Sounds/explosion.wav" id="6_1cv5x"]
+[ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="7_phsdq"]
+[ext_resource type="Script" path="res://Scripts/ChaseAndAttack.gd" id="8_shb1a"]
+[ext_resource type="Script" path="res://Scripts/SimeDead.gd" id="9_4uele"]
+[ext_resource type="PackedScene" uid="uid://bakurcopffwal" path="res://Scenes/drop_shadow.tscn" id="10_csqef"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ygmu"]
+radius = 2.84496
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2em70"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5rwj"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56fvr"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wvth"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq2jp"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o500w"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mj6l"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40nqm"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dl0oi"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ae5c"]
+atlas = ExtResource("2_hkt51")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_se0as"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2em70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5rwj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56fvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wvth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq2jp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o500w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mj6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40nqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ae5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2em70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2em70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0oi")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aw2d6"]
+radius = 13.4867
+
+[sub_resource type="Curve2D" id="Curve2D_dlnu1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -63, -59, 0, 0, 0, 0, -85, -4, 0, 0, 0, 0, -54, 60, 0, 0, 0, 0, 5, 81, 0, 0, 0, 0, 60, 60, 0, 0, 0, 0, 87, -7, 0, 0, 0, 0, 64, -58, 0, 0, 0, 0, 1, -81, 0, 0, 0, 0, -33, -77, 0, 0, 0, 0, -61, -61, 0, 0, 0, 0, -64, -59)
+}
+point_count = 11
+
+[sub_resource type="Animation" id="Animation_1qeuh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("animations:material:shader")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="Animation" id="Animation_5b2np"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("animations:material:shader")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_1wsdl")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("animations:material:shader_parameter/hit_opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6dfsl"]
+_data = {
+"RESET": SubResource("Animation_1qeuh"),
+"hit": SubResource("Animation_5b2np")
+}
+
+[node name="Slime" type="CharacterBody2D" groups=["zombies"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_hqw8h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+scale = Vector2(7.76257, 8.05776)
+shape = SubResource("CircleShape2D_5ygmu")
+
+[node name="animations" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = ExtResource("2_67wql")
+position = Vector2(-1, -25)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_se0as")
+animation = &"walk"
+autoplay = "walk"
+frame_progress = 0.659489
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackRadius" type="Area2D" parent="."]
+scale = Vector2(0.846836, 0.846836)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRadius"]
+scale = Vector2(2.10867, 2.10867)
+shape = SubResource("CircleShape2D_aw2d6")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_dlnu1")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-63, -59)
+rotation = 1.9513
+
+[node name="Marker2D" type="Marker2D" parent="Path2D/PathFollow2D"]
+
+[node name="Effects" type="AnimationPlayer" parent="."]
+autoplay = "RESET"
+libraries = {
+"": SubResource("AnimationLibrary_6dfsl")
+}
+
+[node name="SpawnBabiesSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_vsqrs")
+
+[node name="FireballSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_1cv5x")
+pitch_scale = 0.5
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("7_phsdq")
+initial_state = NodePath("ChaseAndAttack")
+
+[node name="ChaseAndAttack" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy", "effects")]
+script = ExtResource("8_shb1a")
+enemy = NodePath("../..")
+effects = NodePath("../../Effects")
+
+[node name="Dead" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy", "fireball_sound")]
+script = ExtResource("9_4uele")
+enemy = NodePath("../..")
+fireball_sound = NodePath("../../FireballSound")
+
+[node name="DropShadow" parent="." instance=ExtResource("10_csqef")]
+z_index = -1
+position = Vector2(0, 15)
+scale = Vector2(1.4, 1)
+
+[connection signal="body_entered" from="AttackRadius" to="." method="_on_attack_radius_body_entered"]
+[connection signal="body_exited" from="AttackRadius" to="." method="_on_attack_radius_body_exited"]

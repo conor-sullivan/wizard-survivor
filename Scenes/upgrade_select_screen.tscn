@@ -1,0 +1,258 @@
+[gd_scene load_steps=10 format=3 uid="uid://qpf1mos8ua3o"]
+
+[ext_resource type="Script" path="res://Scripts/upgrade_select_screen.gd" id="1_twa50"]
+[ext_resource type="Theme" uid="uid://cxhxstov7n5l5" path="res://theme.tres" id="2_aie4x"]
+[ext_resource type="Texture2D" uid="uid://bxus0vgk0lg8e" path="res://Sprites/confetti.png" id="3_lt57v"]
+[ext_resource type="AudioStream" uid="uid://dkvoiy6tn4fwy" path="res://Sounds/Cyberpunk Moonlight Sonata.mp3" id="4_kpmqg"]
+
+[sub_resource type="Animation" id="Animation_q87ji"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect/LevelUpLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(496, 110)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect/LevelUpLabel:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect/LevelUpLabel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0i7xf"]
+resource_name = "level_up_text_swing"
+length = 2.0
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect/LevelUpLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(496, 110), Vector2(493, 68), Vector2(496, 110), Vector2(458, 131), Vector2(496, 110)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect/LevelUpLabel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect/LevelUpLabel:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.264856, 0.0, -0.26529, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0gagb"]
+_data = {
+"RESET": SubResource("Animation_q87ji"),
+"level_up_text_swing": SubResource("Animation_0i7xf")
+}
+
+[sub_resource type="Gradient" id="Gradient_ej2gv"]
+
+[sub_resource type="Curve" id="Curve_1ltme"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="UpgradeSelectScreen" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_twa50")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.643137)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -65.5
+offset_right = 221.0
+offset_bottom = 65.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_aie4x")
+theme_override_constants/separation = 20
+
+[node name="UpgradeOne" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="ColorRect/HBoxContainer/UpgradeOne"]
+layout_mode = 2
+theme = ExtResource("2_aie4x")
+theme_override_font_sizes/font_size = 20
+text = "This One"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="ColorRect/HBoxContainer/UpgradeOne"]
+layout_mode = 2
+theme = ExtResource("2_aie4x")
+theme_override_font_sizes/font_size = 12
+text = "This is the upgrades description"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="UpgradeOneButton" type="Button" parent="ColorRect/HBoxContainer/UpgradeOne"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 0
+text = "Upgrade"
+
+[node name="UpgradeTwo" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="ColorRect/HBoxContainer/UpgradeTwo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "This One"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="ColorRect/HBoxContainer/UpgradeTwo"]
+layout_mode = 2
+theme = ExtResource("2_aie4x")
+theme_override_font_sizes/font_size = 12
+text = "This is the upgrades description"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="UpgradeTwoButton" type="Button" parent="ColorRect/HBoxContainer/UpgradeTwo"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
+text = "Upgrade"
+
+[node name="UpgradeThree" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="ColorRect/HBoxContainer/UpgradeThree"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "This One"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="ColorRect/HBoxContainer/UpgradeThree"]
+layout_mode = 2
+theme = ExtResource("2_aie4x")
+theme_override_font_sizes/font_size = 12
+text = "This is the upgrades description"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="UpgradeThreeButton" type="Button" parent="ColorRect/HBoxContainer/UpgradeThree"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
+text = "Upgrade"
+
+[node name="LevelUpLabel" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -250.0
+offset_right = 144.002
+offset_bottom = -182.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_aie4x")
+theme_override_font_sizes/font_size = 50
+text = "LEVEL UP!"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "level_up_text_swing"
+libraries = {
+"": SubResource("AnimationLibrary_0gagb")
+}
+
+[node name="Confetti" type="CPUParticles2D" parent="."]
+position = Vector2(641, -90)
+amount = 100
+lifetime = 3.0
+randomness = 1.0
+texture = ExtResource("3_lt57v")
+emission_shape = 3
+emission_rect_extents = Vector2(750, 100)
+gravity = Vector2(0, 200)
+angle_max = 180.0
+color = Color(0.101961, 0.803922, 1, 1)
+color_ramp = SubResource("Gradient_ej2gv")
+hue_variation_min = -0.25
+hue_variation_max = 0.39
+hue_variation_curve = SubResource("Curve_1ltme")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_kpmqg")
+volume_db = -5.0
+autoplay = true
+
+[connection signal="button_down" from="ColorRect/HBoxContainer/UpgradeOne/UpgradeOneButton" to="." method="_on_upgrade_one_button_button_down"]
+[connection signal="button_down" from="ColorRect/HBoxContainer/UpgradeTwo/UpgradeTwoButton" to="." method="_on_upgrade_two_button_button_down"]
+[connection signal="button_down" from="ColorRect/HBoxContainer/UpgradeThree/UpgradeThreeButton" to="." method="_on_upgrade_three_button_button_down"]

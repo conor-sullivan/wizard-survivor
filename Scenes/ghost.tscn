@@ -1,0 +1,197 @@
+[gd_scene load_steps=24 format=3 uid="uid://csoc8ihbhbcv4"]
+
+[ext_resource type="Script" path="res://Scripts/ghost.gd" id="1_b3uf2"]
+[ext_resource type="Texture2D" uid="uid://v7vi14pls7no" path="res://Sprites/ghost-Sheet.png" id="2_0jgu8"]
+[ext_resource type="Shader" path="res://Shaders/take_damage.gdshader" id="3_fx7ug"]
+[ext_resource type="AudioStream" uid="uid://hn2txwsfbo2a" path="res://Sounds/explosion.wav" id="4_s24bv"]
+[ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="5_rscx8"]
+[ext_resource type="Script" path="res://Scripts/ChaseAndAttack.gd" id="6_el6gk"]
+[ext_resource type="Script" path="res://Scripts/Dead.gd" id="7_wtebv"]
+[ext_resource type="PackedScene" uid="uid://bakurcopffwal" path="res://Scenes/drop_shadow.tscn" id="8_rdord"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ob0i"]
+radius = 1.53382
+height = 4.46774
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhnme"]
+resource_local_to_scene = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mq2kk"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fn0y"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4wxq"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf48h"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krhtp"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjuvx"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6pv2"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rdp2"]
+atlas = ExtResource("2_0jgu8")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_se0as"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mq2kk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fn0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4wxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf48h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krhtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjuvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6pv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rdp2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_gxrwn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("animations:material:shader")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="Animation" id="Animation_4pivt"]
+resource_name = "hit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("animations:material:shader")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_fx7ug")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("animations:material:shader_parameter/hit_opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tftci"]
+_data = {
+"RESET": SubResource("Animation_gxrwn"),
+"hit": SubResource("Animation_4pivt")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4k74k"]
+radius = 7.84007
+height = 22.4002
+
+[node name="Ghost" type="CharacterBody2D" groups=["zombies"]]
+collision_layer = 4
+collision_mask = 5
+safe_margin = 1.0
+script = ExtResource("1_b3uf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+scale = Vector2(7.76257, 8.05776)
+shape = SubResource("CapsuleShape2D_4ob0i")
+
+[node name="animations" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_jhnme")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_se0as")
+animation = &"walk"
+autoplay = "walk"
+frame_progress = 0.634892
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Effects" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tftci")
+}
+
+[node name="AttackRadius" type="Area2D" parent="."]
+scale = Vector2(0.846836, 0.846836)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRadius"]
+scale = Vector2(2.10867, 2.10867)
+shape = SubResource("CapsuleShape2D_4k74k")
+
+[node name="FireballSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_s24bv")
+pitch_scale = 0.5
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_rscx8")
+initial_state = NodePath("ChaseAndAttack")
+
+[node name="ChaseAndAttack" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy", "effects")]
+script = ExtResource("6_el6gk")
+enemy = NodePath("../..")
+effects = NodePath("../../Effects")
+
+[node name="Dead" type="Node" parent="State Machine" node_paths=PackedStringArray("enemy", "fireball_sound")]
+script = ExtResource("7_wtebv")
+enemy = NodePath("../..")
+fireball_sound = NodePath("../../FireballSound")
+
+[node name="DropShadow" parent="." instance=ExtResource("8_rdord")]
+z_index = -1
+position = Vector2(2, 14)
+scale = Vector2(1.28125, 1)
+
+[connection signal="body_entered" from="AttackRadius" to="." method="_on_attack_radius_body_entered"]
+[connection signal="body_exited" from="AttackRadius" to="." method="_on_attack_radius_body_exited"]

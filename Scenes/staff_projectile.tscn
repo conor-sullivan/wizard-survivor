@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://ckapueie3mbau"]
+
+[ext_resource type="Script" path="res://Scripts/StaffProjectile.gd" id="1_vj2rf"]
+[ext_resource type="Shader" path="res://Shaders/shotgun_projectile.gdshader" id="2_h3frh"]
+[ext_resource type="Texture2D" uid="uid://dxxpjglvdj64k" path="res://Sprites/staff_projectile.png" id="3_6aybo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xdhv5"]
+radius = 18.0278
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_isao8"]
+resource_local_to_scene = true
+shader = ExtResource("2_h3frh")
+shader_parameter/speed = 3.0
+shader_parameter/tint = Color(1, 0, 0.686275, 1)
+shader_parameter/span = 2.0
+
+[sub_resource type="Curve" id="Curve_kkyh6"]
+min_value = -1.0
+_data = [Vector2(0, -0.363636), 0.0, 0.0, 0, 0, Vector2(1, 0.454545), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="StaffProjectile" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_vj2rf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xdhv5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_isao8")
+scale = Vector2(2, 2)
+texture = ExtResource("3_6aybo")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.352941)
+texture_filter = 1
+amount = 20
+lifetime = 0.2
+randomness = 1.0
+texture = ExtResource("3_6aybo")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_min = 0.1
+hue_variation_min = -0.32
+hue_variation_max = 0.27
+hue_variation_curve = SubResource("Curve_kkyh6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
